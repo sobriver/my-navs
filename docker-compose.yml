@@ -1,7 +1,7 @@
 services:
   my-navs:
     # 把 your-github-name 换成你的 GitHub 用户名（必须小写）
-    image: ghcr.io/your-github-name/my-navs:latest
+    image: ghcr.io/sobriver/my-navs:latest
     container_name: my-navs
     restart: unless-stopped
     ports:
