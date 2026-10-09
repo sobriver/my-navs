@@ -1,0 +1,111 @@
+{{define "admin.html"}}<!doctype html>
+<html lang="zh-CN">
+<head>
+{{template "head" .}}
+<link rel="stylesheet" href="{{asset "admin.css"}}">
+<title>管理 · {{.Title}}</title>
+</head>
+<body class="page-admin">
+<header class="admin-bar">
+  <nav class="crumb">
+    <a href="/">{{.Title}}</a>
+    <span class="sep">/</span>
+    <strong>管理</strong>
+  </nav>
+  <div class="actions">
+    <button class="btn ghost" type="button" id="btn-export">导出</button>
+    <label class="btn ghost">导入<input type="file" id="file-import" accept="application/json,.json" hidden></label>
+    <form method="post" action="/logout"><button class="btn ghost" type="submit">退出</button></form>
+  </div>
+</header>
+
+<main class="admin-wrap">
+  <section class="panel">
+    <div class="panel-head">
+      <h2>分组</h2>
+      <button class="btn small" type="button" id="btn-add-group">+ 新分组</button>
+    </div>
+    <ul class="list" id="group-list"></ul>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2 id="links-title">链接</h2>
+      <button class="btn primary small" type="button" id="btn-add-link">+ 添加链接</button>
+    </div>
+    <ul class="list" id="link-list"></ul>
+    <p class="hint">拖动可以排序；把链接拖到左边的分组上，可以移到那个分组。</p>
+  </section>
+</main>
+
+<dialog id="dlg-group">
+  <form class="dlg" id="form-group">
+    <h3 id="group-title">新建分组</h3>
+    <label class="field">
+      <span>名称</span>
+      <input class="input" id="g-name" maxlength="32" required autocomplete="off">
+    </label>
+    <div class="dlg-foot">
+      <span class="spacer"></span>
+      <button class="btn" type="button" data-close>取消</button>
+      <button class="btn primary" type="submit">保存</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-link">
+  <form class="dlg" id="form-link">
+    <h3 id="link-title">添加链接</h3>
+    <label class="field">
+      <span>名称</span>
+      <input class="input" id="l-name" maxlength="64" required autocomplete="off">
+    </label>
+    <label class="field">
+      <span>地址</span>
+      <input class="input" id="l-url" type="url" placeholder="https://" required autocomplete="off">
+    </label>
+    <div class="field-row">
+      <label class="field">
+        <span>分组</span>
+        <select class="input" id="l-group"></select>
+      </label>
+      <label class="field">
+        <span>备注（可选）</span>
+        <input class="input" id="l-desc" maxlength="200" autocomplete="off">
+      </label>
+    </div>
+    <div class="field">
+      <span>图标</span>
+      <div class="icon-editor">
+        <div class="icon-preview" id="l-icon-preview"></div>
+        <div class="icon-tools">
+          <div class="inline">
+            <input class="input" id="l-icon-input" placeholder="图标名称（如 jenkins）或图片地址" autocomplete="off" spellcheck="false">
+            <button class="btn" type="button" id="btn-icon-fetch">获取</button>
+          </div>
+          <div class="inline">
+            <button class="btn small" type="button" id="btn-icon-upload">上传图片</button>
+            <button class="btn small ghost" type="button" id="btn-icon-clear">移除图标</button>
+            <input type="file" id="l-icon-file" accept="image/*,.ico,.svg" hidden>
+          </div>
+          <p class="sub-hint">名称来自 <a href="https://github.com/homarr-labs/dashboard-icons" target="_blank" rel="noopener noreferrer">dashboard-icons</a>，留空则用链接名称。也可以直接粘贴图片。</p>
+        </div>
+      </div>
+    </div>
+    <label class="check">
+      <input type="checkbox" id="l-sametab">
+      <span>在当前标签页打开</span>
+    </label>
+    <div class="dlg-foot">
+      <button class="btn danger" type="button" id="btn-link-delete">删除</button>
+      <span class="spacer"></span>
+      <button class="btn" type="button" data-close>取消</button>
+      <button class="btn primary" type="submit">保存</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="{{asset "admin.js"}}"></script>
+</body>
+</html>{{end}}

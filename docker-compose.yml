@@ -1,0 +1,19 @@
+services:
+  my-navs:
+    # 把 your-github-name 换成你的 GitHub 用户名（必须小写）
+    image: ghcr.io/your-github-name/my-navs:latest
+    container_name: my-navs
+    restart: unless-stopped
+    ports:
+      # 前面有 Nginx / Caddy 反代时，改成 "127.0.0.1:8080:8080"，不要直接暴露到公网
+      - "8080:8080"
+    env_file: .env
+    volumes:
+      - ./data:/data
+    # 正常运行只占 10MB 左右，这里只是上限
+    mem_limit: 64m
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"

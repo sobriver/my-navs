@@ -1,0 +1,19 @@
+{{define "login.html"}}<!doctype html>
+<html lang="zh-CN">
+<head>
+{{template "head" .}}
+<title>登录 · {{.Title}}</title>
+</head>
+<body>
+<main class="login">
+  <form class="login-box" method="post" action="/login">
+    <h1>{{.Title}}</h1>
+    <p class="sub">{{if .NeedAdmin}}请输入管理密码{{else}}请输入访问密码{{end}}</p>
+    {{with .Error}}<div class="alert" role="alert">{{.}}</div>{{end}}
+    <input type="hidden" name="next" value="{{.Next}}">
+    <input class="input" type="password" name="password" placeholder="密码" autocomplete="current-password" aria-label="密码" autofocus required>
+    <button class="btn primary" type="submit">进入</button>
+  </form>
+</main>
+</body>
+</html>{{end}}

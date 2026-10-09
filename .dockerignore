@@ -1,0 +1,8 @@
+.git
+.github
+data
+.env
+*.exe
+*.md
+*_test.go
+docker-compose.yml

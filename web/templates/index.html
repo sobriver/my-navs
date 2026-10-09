@@ -1,0 +1,41 @@
+{{define "index.html"}}<!doctype html>
+<html lang="zh-CN">
+<head>
+{{template "head" .}}
+<title>{{.Title}}</title>
+</head>
+<body class="page-nav">
+<div class="wrap">
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="q" type="search" placeholder="搜索名称、地址或备注" autocomplete="off" spellcheck="false" aria-label="搜索">
+    <kbd>/</kbd>
+  </div>
+  {{if .Groups}}
+  <nav class="tabs" role="tablist">
+    {{- range $i, $g := .Groups}}
+    <button type="button" class="tab{{if eq $i 0}} active{{end}}" role="tab" data-group="{{$g.ID}}">{{$g.Name}}<span class="n">{{len $g.Links}}</span></button>
+    {{- end}}
+  </nav>
+  <main class="grid" id="grid">
+    {{- range $i, $g := .Groups}}{{range $g.Links}}
+    <a class="card" href="{{.URL}}"{{if not .SameTab}} target="_blank"{{end}} rel="noopener noreferrer" data-group="{{$g.ID}}" data-search="{{searchKey .}}" title="{{.URL}}"{{if ne $i 0}} hidden{{end}}>
+      <span class="card-group">{{$g.Name}}</span>
+      <span class="card-icon">{{if .Icon}}<img src="/icons/{{.Icon}}" alt="" loading="lazy">{{else}}<span class="letter">{{initial .Name}}</span>{{end}}</span>
+      <span class="card-name">{{.Name}}</span>
+      {{- if .Desc}}<span class="card-sub">{{.Desc}}</span>{{else}}<span class="card-sub host">{{host .URL}}</span>{{end}}
+    </a>
+    {{- end}}{{end}}
+  </main>
+  <p class="empty" id="empty" hidden></p>
+  {{else}}
+  <p class="empty">还没有任何链接，<a href="/admin">去后台添加</a></p>
+  {{end}}
+  <footer class="foot">
+    <a href="/admin">管理</a>
+    <form method="post" action="/logout"><button type="submit">退出</button></form>
+  </footer>
+</div>
+<script src="{{asset "nav.js"}}"></script>
+</body>
+</html>{{end}}
