@@ -12,10 +12,14 @@
 
 ### 1. 构建镜像
 
-把代码推到 GitHub，Actions 会自动构建 `linux/amd64` 和 `linux/arm64` 两个架构的镜像，推送到 `ghcr.io/<你的用户名>/my-navs`：
+只有推送 `v` 开头的 tag 才会触发构建，普通提交不会。Actions 会构建 `linux/amd64` 和 `linux/arm64` 两个架构的镜像，推送到 `ghcr.io/<你的用户名>/my-navs`，镜像标签就是 tag 名，同时更新 `latest`：
 
-- 推送到 `main` 分支 → `latest` 标签
-- 推送 `v1.0.0` 这样的 tag → `1.0.0` 和 `1.0` 标签
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+推送后会得到 `my-navs:v1.0.0` 和 `my-navs:latest` 两个标签。
 
 镜像默认是私有的。两种办法让 VPS 拉得到：
 
